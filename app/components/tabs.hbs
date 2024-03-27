@@ -2,33 +2,74 @@
   <div class="nav nav-tabs border-bottom-0" id="nav-tab" role="tablist">
     {{#each @names as |tab index|}}
       <button
-        class="srd-faq-tab {{if (eq index 0) 'active'}} px-3"
-        id="nav-srd-product-{{index}}"
+        class="nav-link text-capitalize {{if (eq index 0) 'active'}} px-3"
+        id="{{tab}}-tab"
         data-toggle="tab"
-        data-target="#nav-srd-product-target-{{index}}"
+        data-target="#content-{{tab}}"
         type="button"
         role="tab"
-        aria-controls="nav-srd-product-target-{{index}}"
-        aria-selected="{{if (eq index 0) 'true' 'false'}}"
       >
         <div class="m-0">
-          {{tab.name}}
+          {{tab}}
         </div>
       </button>
     {{/each}}
 
   </div>
 </nav>
-<div class="tab-content" id="nav-tabContent">
+<div class="tab-content m-3" id="nav-tabContent">
   {{#each @names as |tab index|}}
     <div
-      class="tab-pane fade {{if (eq index 0) 'show active'}} "
-      id="nav-srd-product-target-{{index}}"
+      class="tab-pane fade {{if (eq index 0) 'show active'}}"
+      id="content-{{tab}}"
       role="tabpanel"
-      aria-labelledby="nav-srd-product-{{index}}"
+      aria-labelledby="{{tab}}-tab"
     >
-      {{tab}}
-      tab
+      {{#if (eq tab "index")}}
+        {{#if @index.methods}}
+          <h4>Methods</h4>
+          {{#each @index.methods as |item|}}
+            <p>{{item}}</p>
+          {{/each}}
+        {{/if}}
+
+        {{#if @index.properties}}
+          {{#each @index.properties as |item|}}
+            <p>{{item}}</p>
+          {{/each}}
+        {{/if}}
+      {{/if}}
+
+      {{#if (eq tab "methods")}}
+        {{#each @methods as |item|}}
+          <h4 class="text-capitalize">{{item.name}}</h4>
+          <p>{{item.description}}</p>
+
+          {{#if item.code}}
+            <blockquote class="blockquote">
+              <pre>
+                {{item.code}}
+              </pre>
+            </blockquote>
+          {{/if}}
+        {{/each}}
+      {{/if}}
+
+      {{#if (eq tab "properties")}}
+        {{#each @properties as |item|}}
+          <h4 class="text-capitalize">{{item.name}}</h4>
+          <p>{{item.description}}</p>
+
+          {{#if item.code}}
+            <blockquote class="blockquote">
+              <pre>
+                {{item.code}}
+              </pre>
+            </blockquote>
+          {{/if}}
+        {{/each}}
+      {{/if}}
+
     </div>
   {{/each}}
 </div>
