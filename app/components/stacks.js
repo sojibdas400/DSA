@@ -1,40 +1,40 @@
 import Component from '@glimmer/component';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
+import { A } from '@ember/array';
 
 export default class StacksComponent extends Component {
-  names = ['index', 'methods', 'properties'];
+  @tracked items = A([]);
+  @tracked pushValue;
 
-  index = {
-    methods: ['push', 'pop', 'top', 'size', 'isEmpty'],
-    properties: ['test'],
-  };
+  constructor() {
+    super(...arguments);
+    this.items = A([]);
+  }
 
-  methods = [
-    {
-      name: 'push',
-      description:
-        'Adds an item to the stack. If the stack is full, then it is said to be an Overflow condition.',
-      code: `
-      import Component from '@glimmer/component';
+  @action push(element, event) {
+    event.preventDefault();
+    this.items.pushObject(element);
+    this.pushValue = '';
+  }
 
-      export default class StacksComponent extends Component {
-        names = ['index', 'methods', 'properties'];
+  @action pop() {
+    if (this.items.length === 0) {
+      return 'Underflow';
+    }
 
-        properties = [];
-        index = {
-          methods: ['push', 'pop', 'top', 'size', 'isEmpty'],
-          properties: ['test'],
-        };
+    return this.items.popObject();
+  }
 
-        methods = [
-          {
-            name: 'push',
-            description:
-              'Adds an item to the stack. If the stack is full, then it is said to be an Overflow condition.',
-          },
-        ];
-      }`,
-    },
-  ];
+  get peek() {
+    return this.items[this.items.length - 1];
+  }
 
-  properties = [];
+  get isEmpty() {
+    return this.items.length === 0;
+  }
+
+  get size() {
+    return this.items.length;
+  }
 }

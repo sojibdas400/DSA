@@ -1,14 +1,68 @@
-<div class="title">What is Stack?</div>
+{{! stacks.hbs }}
+
+<p>
+  Size:
+  {{this.size}}
+</p>
+
+<p>
+  Peek:
+  {{this.peek}}
+</p>
+
+<p>
+  isEmpty:
+  {{this.isEmpty}}
+</p>
+
+{{! Display stack elements }}
+{{#if this.size}}
+  <h4>Stack Elements</h4>
+  <ul class="list-group list-group-flush my-3">
+    {{#each this.items as |item|}}
+      <li class="list-group-item">
+        {{item}}
+      </li>
+    {{/each}}
+  </ul>
+{{else}}
+  <p>
+    Stack is empty
+  </p>
+{{/if}}
+
+<form class="form-row" {{on "submit" (fn this.push this.pushValue)}}>
+  <div class="input-group col-2 mb-3">
+    <Input @type="text" @value={{this.pushValue}} class="form-control" />
+    <div class="input-group-append">
+      <button class="btn btn-outline-secondary" type="submit">Push</button>
+    </div>
+  </div>
+</form>
+
+<button
+  class="btn btn-outline-danger mb-3"
+  type="button"
+  {{on "click" this.pop}}
+>
+  Pop Element
+</button>
+
+<div class="title">
+  What is Stack?
+</div>
 
 <blockquote class="blockquote">
   A stack is a linear data structure in which the insertion of a new element and
   removal of an existing element takes place at the same end represented as the
   top of the stack.
+  <pre>
+    {{@stacks}}
+  </pre>
 </blockquote>
-
 <Tabs
-  @names={{this.names}}
-  @index={{this.index}}
-  @methods={{this.methods}}
-  @properties={{this.properties}}
+  @names={{@names}}
+  @index={{@index}}
+  @methods={{@methods}}
+  @properties={{@properties}}
 />
